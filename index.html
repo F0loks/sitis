@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Портфолио</title>
+  <!-- Tailwind CSS pre-built standalone CSS via CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- React CDNs -->
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <!-- Babel for JSX -->
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.9/Babel.min.js"></script>
+  <!-- Framer Motion for animations -->
+  <script src="https://cdn.jsdelivr.net/npm/framer-motion@11.2.10/dist/framer-motion.min.js"></script>
+  <style>
+    /* Custom styles for additional animations and overrides */
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    .telegram-button {
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .telegram-button:hover {
+      transform: scale(1.05);
+      background-color: #2ca5e0;
+    }
+    /* Fade-in animation for page load */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // Sample project data
+    const projects = [
+      {
+        id: 1,
+        title: "Графический дизайн",
+        description: "Современный брендинг для стартапа",
+        image: "https://images.unsplash.com/photo-1516321315092-9c7e901f8f67?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        id: 2,
+        title: "Фотография природы",
+        description: "Пейзажи с высоким разрешением",
+        image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        id: 3,
+        title: "UI/UX дизайн",
+        description: "Интерфейс для мобильного приложения",
+        image: "https://images.unsplash.com/photo-1498050108023-c5241f875303?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        id: 4,
+        title: "Портретная фотография",
+        description: "Эмоциональные портреты",
+        image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        id: 5,
+        title: "Логотипы",
+        description: "Минималистичные логотипы для брендов",
+        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        id: 6,
+        title: "Уличная фотография",
+        description: "Жизнь города в кадре",
+        image: "https://images.unsplash.com/photo-1519125323398-675f1f1d1d1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      }
+    ];
+
+    // Project Card Component
+    const ProjectCard = ({ project }) => {
+      return (
+        <motion.div
+          className="bg-white rounded-lg overflow-hidden shadow-lg card-hover fade-in"
+          role="article"
+          aria-labelledby={`project-title-${project.id}`}
+          whileHover={{ scale: 1.03, y: -5 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          style={{ boxShadow: "0 4px 15px rgba(0,0,0,0.1)" }}
+        >
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-48 object-cover"
+            loading="lazy"
+          />
+          <div className="p-4">
+            <h3 id={`project-title-${project.id}`} className="text-lg font-semibold text-gray-800">
+              {project.title}
+            </h3>
+            <p className="text-gray-600 text-sm mt-2">{project.description}</p>
+          </div>
+        </motion.div>
+      );
+    };
+
+    // Main Portfolio Component
+    const Portfolio = () => {
+      return (
+        <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <motion.h1
+              className="text-4xl font-bold text-center text-gray-800 mb-12"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              Мое портфолио
+            </motion.h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {projects.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+            <motion.div
+              className="mt-12 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              <a
+                href="https://t.me/yourusername"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-6 py-3 bg-[#0088cc] text-white font-semibold rounded-full telegram-button hover:bg-[#2ca5e0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0088cc]"
+                aria-label="Связаться со мной через Telegram"
+              >
+                <svg
+                  className="w-6 h-6 mr-2"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.69 1.39-1.38 1.44-.86.06-1.51-.56-2.36-1.08-1.36-.83-2.13-1.34-3.45-2.15-.34-.22-.24-.34.02-.51l.85-.65c.76-.58 1.48-.76 1.97-.51.18.09 2.79 1.79 2.87 1.86.37.3.79.36 1.14.12.35-.24.45-.65.37-1.03-.31-1.48-1.34-5.23-1.85-7.07-.12-.43-.37-.64-.75-.64s-.66.23-.81.65c-.6 1.64-1.81 4.95-1.81 4.95-.04.07-.09.12-.16.12-.15 0-.63-.23-1.14-.46l-.82.64c-.29.22-.66.37-1.04.37-.37 0-.54-.22-.59-.46-.06-.28.13-.56.61-.94 1.36-1.09 2.41-1.98 2.41-2.15 0-.09-.04-.17-.12-.22-.15-.09 comp-.34-.03-.46.07z"/>
+                </svg>
+                Связаться со мной
+              </a>
+            </motion.div>
+          </div>
+        </div>
+      );
+    };
+
+    // Render the app
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<Portfolio />);
+  </script>
+</body>
+</html>
